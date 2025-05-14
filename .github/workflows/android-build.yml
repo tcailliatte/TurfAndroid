@@ -31,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: turfexplorer-apk
-        path: bin/*.apk
+        path: ~/.buildozer/android/platform/build/dists/*/*.apk # Update this path as needed
