@@ -1,0 +1,34 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libzip-dev libjpeg-dev openjdk-11-jdk unzip zip
+        pip install --user buildozer cython
+
+    - name: Build APK
+      run: |
+        ~/.local/bin/buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: turfexplorer-apk
+        path: bin/*.apk
